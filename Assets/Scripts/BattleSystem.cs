@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,11 +23,19 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
 
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START;
         StartCoroutine(SetupBattle());
+    }
+
+    //Player's side
+
+    void PlayerTurn()
+    {
+        dialogueText.text = "Choose an action:";
     }
 
     IEnumerator SetupBattle()
@@ -66,50 +74,27 @@ public class BattleSystem : MonoBehaviour
         else
         {
             state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
+            EnemyTurn();
         }
     }
 
-    IEnumerator EnemyTurn()
+    IEnumerator SuperAttack()
     {
-        dialogueText.text = enemyUnit.unitName + " attacks!";
+        bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
+        enemyHUD.SetHP(enemyUnit.currentHP);
+        dialogueText.text = "The player performed a super attack!";
 
-        yield return new WaitForSeconds(1f);
-
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
-
-        playerHUD.SetHP(playerUnit.currentHP);
-
-        yield return new WaitForSeconds(1f);
-
-        if (isDead)
-        {
-            state = BattleState.LOST;
+        yield return new WaitForSeconds(2f);
+        if (isdead){
+            state= BattleState.WON;
             EndBattle();
         }
         else
         {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            state=BattleState.ENEMYTURN;
+            EnemyTurn();
         }
-
-    }
-
-    void EndBattle()
-    {
-        if (state == BattleState.WON)
-        {
-            dialogueText.text = "You won the battle!";
-        }
-        else if (state == BattleState.LOST)
-        {
-            dialogueText.text = "You were defeated.";
-        }
-    }
-
-    void PlayerTurn()
-    {
-        dialogueText.text = "Choose an action:";
+       
     }
 
     IEnumerator PlayerHeal()
@@ -122,8 +107,17 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
+        EnemyTurn();
     }
+
+    IEnumerator PlayerRun()
+    {
+        dialogueText.text = "Player ran away from fight";
+        yield return new WaitForSeconds(2f);
+        EndBattle();
+    }
+
+    //Player's side of fighitng
 
     public void OnAttackButton()
     {
@@ -139,5 +133,119 @@ public class BattleSystem : MonoBehaviour
             return;
 
         StartCoroutine(PlayerHeal());
+    }
+
+    public void OnRunButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+        StartCoroutine(PlayerRun());
+    }
+
+    public void OnSuperButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+        StartCoroutine(SuperAttack());
+    }
+
+    //Enemy's side
+
+    void EnemyTurn()
+    {
+        dialogueText.text = "Now the enemy will attack";
+        int randomAttack = UnityEngine.Random.Range(0, 3);
+
+        switch (randomAttack)
+        {
+            case 0:
+                StartCoroutine(EnemyAttack());
+                break;
+            case 1:
+                StartCoroutine(EnemySuperAttack());
+                break;
+            case 2:
+                StartCoroutine(EnemyHeal());
+                break;
+            case 3:
+                StartCoroutine(EnemyRun());
+                break;
+
+        }
+    }
+
+    IEnumerator EnemyAttack()
+    {
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+        dialogueText.text="The enemy performed a slash attack";
+
+        yield return new WaitForSeconds(2f);
+
+        if (isdead)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+
+        else
+        {
+            state=BattleState.PLAYERTURN;
+            PlayerTurn();
+        }
+    }
+
+    IEnumerator EnemySuperAttack()
+    {
+        bool isdead=playerUnit.TakeDamage(enemyUnit.damage);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+        dialogueText.text = "The enemy performed a Super Attack";
+
+        yield return new WaitForSeconds(2f);
+
+        if (isdead)
+        {
+            state= BattleState.LOST;
+            EndBattle();
+        }
+        
+        else
+        {
+            state = BattleState.PLAYERTURN;
+            PlayerTurn();
+        }
+    }
+
+    IEnumerator EnemyHeal()
+    {
+        enemyUnit.Heal(20);
+        dialogueText.text = "The enemy healed itself";
+
+        enemyHUD.SetHP(enemyUnit.currentHP);
+        yield return new WaitForSeconds(2f);
+
+        state=BattleState.PLAYERTURN;
+        PlayerTurn();
+    }
+
+    IEnumerator EnemyRun()
+    {
+        dialogueText.text = "The enemy ran away";
+        yield return new WaitForSeconds(2f);
+        EndBattle();
+    }
+
+    void EndBattle()
+    {
+        if (state == BattleState.WON)
+        {
+            dialogueText.text = "You won the battle!";
+        }
+        else if (state == BattleState.LOST)
+        {
+            dialogueText.text = "You were defeated.";
+        }
     }
 }

@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
 	public int unitLevel;
 
 	public int damage;
+	public int SuperDamage;
 
 	public int maxHP;
 	public int currentHP;
@@ -29,5 +30,20 @@ public class Unit : MonoBehaviour
 		if (currentHP > maxHP)
 			currentHP = maxHP;
 	}
+
+	public bool SuperAttack(int SuperDamage)
+	{
+		currentHP-= SuperDamage;
+
+		if(currentHP <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 }
