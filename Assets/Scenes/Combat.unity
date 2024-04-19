@@ -3633,6 +3633,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3910143540070486435, guid: 5d9cab2db5da09247b754831938e290e, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4924795109469948813, guid: 5d9cab2db5da09247b754831938e290e, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -3741,6 +3745,22 @@ PrefabInstance:
     - target: {fileID: 5607962986649931960, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723302408894953269, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
+      propertyPath: healPP
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723302408894953269, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
+      propertyPath: attackPP
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723302408894953269, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
+      propertyPath: SuperDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723302408894953269, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
+      propertyPath: superAttackPP
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

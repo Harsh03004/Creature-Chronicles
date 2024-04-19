@@ -1,49 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public string unitName;
+    public int unitLevel;
 
-	public string unitName;
-	public int unitLevel;
+    public int damage;
+    public int SuperDamage;
+    public int maxHP;
+    public int currentHP;
 
-	public int damage;
-	public int SuperDamage;
+    public int attackPP; // PP for regular attack
+    public int superAttackPP; // PP for super attack
+    public int healPP; // PP for healing
 
-	public int maxHP;
-	public int currentHP;
+    public bool TakeDamage(int dmg)
+    {
+        currentHP -= dmg;
 
-	public bool TakeDamage(int dmg)
-	{
-		currentHP -= dmg;
+        if (currentHP <= 0)
+            return true;
+        else
+            return false;
+    }
 
-		if (currentHP <= 0)
-			return true;
-		else
-			return false;
-	}
+    public void Heal(int amount)
+    {
+        currentHP += amount;
+        if (currentHP > maxHP)
+            currentHP = maxHP;
+    }
 
-	public void Heal(int amount)
-	{
-		currentHP += amount;
-		if (currentHP > maxHP)
-			currentHP = maxHP;
-	}
+    public bool SuperAttack(int SuperDamage)
+    {
+        if (superAttackPP <= 0)
+            return false; // Cannot use super attack if no PP remaining
 
-	public bool SuperAttack(int SuperDamage)
-	{
-		currentHP-= SuperDamage;
+        currentHP -= SuperDamage;
+        superAttackPP--;
 
-		if(currentHP <= 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-
+        if (currentHP <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

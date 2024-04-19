@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +22,6 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -31,11 +29,31 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetupBattle());
     }
 
-    //Player's side
-
     void PlayerTurn()
     {
         dialogueText.text = "Choose an action:";
+    }
+
+    void EnemyTurn()
+    {
+        dialogueText.text = "Now the enemy will attack";
+        int randomAttack = UnityEngine.Random.Range(0, 3);
+
+        switch (randomAttack)
+        {
+            case 0:
+                StartCoroutine(EnemyAttack());
+                break;
+            case 1:
+                StartCoroutine(EnemySuperAttack());
+                break;
+            case 2:
+                StartCoroutine(EnemyHeal());
+                break;
+            case 3:
+                StartCoroutine(EnemyRun());
+                break;
+        }
     }
 
     IEnumerator SetupBattle()
@@ -57,12 +75,22 @@ public class BattleSystem : MonoBehaviour
         PlayerTurn();
     }
 
+    //Player's side
     IEnumerator PlayerAttack()
     {
+        if (playerUnit.attackPP <= 0)
+        {
+            dialogueText.text = "No PP left for regular attack!";
+            yield return new WaitForSeconds(2f);
+            EnemyTurn();
+            yield break;
+        }
+
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP);
         dialogueText.text = "The attack is successful!";
+        playerUnit.attackPP--; // Decrease PP for regular attack
 
         yield return new WaitForSeconds(2f);
 
@@ -80,26 +108,44 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SuperAttack()
     {
+        if (playerUnit.superAttackPP <= 0)
+        {
+            dialogueText.text = "No PP left for super attack!";
+            yield return new WaitForSeconds(2f);
+            EnemyTurn();
+            yield break;
+        }
+
         bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
         enemyHUD.SetHP(enemyUnit.currentHP);
         dialogueText.text = "The player performed a super attack!";
+        playerUnit.superAttackPP--; // Decrease PP for super attack
 
         yield return new WaitForSeconds(2f);
-        if (isdead){
-            state= BattleState.WON;
+        if (isdead)
+        {
+            state = BattleState.WON;
             EndBattle();
         }
         else
         {
-            state=BattleState.ENEMYTURN;
+            state = BattleState.ENEMYTURN;
             EnemyTurn();
         }
-       
     }
 
     IEnumerator PlayerHeal()
     {
+        if (playerUnit.healPP <= 0)
+        {
+            dialogueText.text = "No PP left for healing!";
+            yield return new WaitForSeconds(2f);
+            EnemyTurn();
+            yield break;
+        }
+
         playerUnit.Heal(20);
+        playerUnit.healPP--; // Decrease PP for healing
 
         playerHUD.SetHP(playerUnit.currentHP);
         dialogueText.text = "You feel renewed strength!";
@@ -118,7 +164,6 @@ public class BattleSystem : MonoBehaviour
     }
 
     //Player's side of fighitng
-
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)
@@ -150,36 +195,12 @@ public class BattleSystem : MonoBehaviour
     }
 
     //Enemy's side
-
-    void EnemyTurn()
-    {
-        dialogueText.text = "Now the enemy will attack";
-        int randomAttack = UnityEngine.Random.Range(0, 3);
-
-        switch (randomAttack)
-        {
-            case 0:
-                StartCoroutine(EnemyAttack());
-                break;
-            case 1:
-                StartCoroutine(EnemySuperAttack());
-                break;
-            case 2:
-                StartCoroutine(EnemyHeal());
-                break;
-            case 3:
-                StartCoroutine(EnemyRun());
-                break;
-
-        }
-    }
-
     IEnumerator EnemyAttack()
     {
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
 
         playerHUD.SetHP(playerUnit.currentHP);
-        dialogueText.text="The enemy performed a slash attack";
+        dialogueText.text = "The enemy performed a slash attack";
 
         yield return new WaitForSeconds(2f);
 
@@ -191,14 +212,14 @@ public class BattleSystem : MonoBehaviour
 
         else
         {
-            state=BattleState.PLAYERTURN;
+            state = BattleState.PLAYERTURN;
             PlayerTurn();
         }
     }
 
     IEnumerator EnemySuperAttack()
     {
-        bool isdead=playerUnit.TakeDamage(enemyUnit.damage);
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
 
         playerHUD.SetHP(playerUnit.currentHP);
         dialogueText.text = "The enemy performed a Super Attack";
@@ -207,10 +228,10 @@ public class BattleSystem : MonoBehaviour
 
         if (isdead)
         {
-            state= BattleState.LOST;
+            state = BattleState.LOST;
             EndBattle();
         }
-        
+
         else
         {
             state = BattleState.PLAYERTURN;
@@ -221,12 +242,13 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyHeal()
     {
         enemyUnit.Heal(20);
-        dialogueText.text = "The enemy healed itself";
+        enemyUnit.healPP--; // Decrease PP for enemy healing
 
+        dialogueText.text = "The enemy healed itself";
         enemyHUD.SetHP(enemyUnit.currentHP);
         yield return new WaitForSeconds(2f);
 
-        state=BattleState.PLAYERTURN;
+        state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
 
