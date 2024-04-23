@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 22472e42831a23648b7d5a8927788600, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96,5 +100,9 @@ MonoBehaviour:
   unitName: Player
   unitLevel: 1
   damage: 20
+  SuperDamage: 0
   maxHP: 100
   currentHP: 100
+  attackPP: 10
+  superAttackPP: 0
+  healPP: 0

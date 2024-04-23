@@ -22,31 +22,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 691.29
+      value: 801.4113
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1111.3
+      value: 1529
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1000.4
+      value: 1032.9023
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.26665047
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: -0.9637933
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 210.93
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Enemy
   unitLevel: 10
-  damage: 50
+  damage: 10
   SuperDamage: 0
   maxHP: 100
   currentHP: 100

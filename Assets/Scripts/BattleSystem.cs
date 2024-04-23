@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
@@ -8,6 +10,8 @@ public class BattleSystem : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+
+
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -38,10 +42,10 @@ public class BattleSystem : MonoBehaviour
     {
         dialogueText.text = "Now the enemy will attack";
         int randomAttack = UnityEngine.Random.Range(0, 3);
-
         switch (randomAttack)
         {
             case 0:
+                
                 StartCoroutine(EnemyAttack());
                 break;
             case 1:
@@ -63,6 +67,11 @@ public class BattleSystem : MonoBehaviour
 
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation.position, Quaternion.identity);
         enemyUnit = enemyGO.GetComponent<Unit>();
+
+        // Calculate the direction from the enemy to the player
+        Vector3 directionToPlayer = playerBattleStation.position - enemyBattleStation.position;
+        // Rotate the enemy to face the player
+        enemyGO.transform.rotation = Quaternion.LookRotation(directionToPlayer);
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
@@ -86,9 +95,12 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
 
+
+
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP);
+
         dialogueText.text = "The attack is successful!";
         playerUnit.attackPP--; // Decrease PP for regular attack
 
@@ -169,6 +181,14 @@ public class BattleSystem : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
             return;
 
+        // Trigger the slash animation immediately
+        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
+/*        if (playerUnit.attackPP > 0 && playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("Slash");
+        }*/
+
+        // Start the player attack coroutine
         StartCoroutine(PlayerAttack());
     }
 
@@ -200,6 +220,11 @@ public class BattleSystem : MonoBehaviour
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
 
         playerHUD.SetHP(playerUnit.currentHP);
+        Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
+        if (EnemyAnimator != null)
+        {
+            EnemyAnimator.SetTrigger("Slash");
+        }
         dialogueText.text = "The enemy performed a slash attack";
 
         yield return new WaitForSeconds(2f);
