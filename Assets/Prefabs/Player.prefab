@@ -104,5 +104,5 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   attackPP: 10
-  superAttackPP: 0
-  healPP: 0
+  superAttackPP: 10
+  healPP: 10

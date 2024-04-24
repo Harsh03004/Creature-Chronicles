@@ -11,8 +11,6 @@ public class BattleSystem : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
-
-
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
@@ -41,24 +39,36 @@ public class BattleSystem : MonoBehaviour
     void EnemyTurn()
     {
         dialogueText.text = "Now the enemy will attack";
-        int randomAttack = UnityEngine.Random.Range(0, 3);
-        switch (randomAttack)
+
+        // Calculate the health percentage of both player and enemy
+        float playerHealthPercentage = (float)playerUnit.currentHP / playerUnit.maxHP;
+        float enemyHealthPercentage = (float)enemyUnit.currentHP / enemyUnit.maxHP;
+
+        // Calculate the difference in health between player and enemy
+        int healthDifference = playerUnit.currentHP - enemyUnit.currentHP;
+
+        // Define a threshold for low health
+        float lowHealthThreshold = 0.3f;
+
+        // Use rule-based system to decide the action
+        if (enemyHealthPercentage < lowHealthThreshold)
         {
-            case 0:
-                
-                StartCoroutine(EnemyAttack());
-                break;
-            case 1:
-                StartCoroutine(EnemySuperAttack());
-                break;
-            case 2:
-                StartCoroutine(EnemyHeal());
-                break;
-            case 3:
-                StartCoroutine(EnemyRun());
-                break;
+            StartCoroutine(EnemyHeal());
+        }
+        else if (playerHealthPercentage < lowHealthThreshold)
+        {
+            StartCoroutine(EnemySuperAttack());
+        }
+        else if (healthDifference > 20)
+        {
+            StartCoroutine(EnemySuperAttack());
+        }
+        else
+        {
+            StartCoroutine(EnemyAttack());
         }
     }
+
 
     IEnumerator SetupBattle()
     {
@@ -95,8 +105,6 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
 
-
-
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP);
@@ -104,7 +112,13 @@ public class BattleSystem : MonoBehaviour
         dialogueText.text = "The attack is successful!";
         playerUnit.attackPP--; // Decrease PP for regular attack
 
-        yield return new WaitForSeconds(2f);
+        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
+        if (playerUnit.attackPP > 0 && playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("Slash");
+        }
+
+        yield return new WaitForSeconds(4f);
 
         if (isDead)
         {
@@ -133,7 +147,13 @@ public class BattleSystem : MonoBehaviour
         dialogueText.text = "The player performed a super attack!";
         playerUnit.superAttackPP--; // Decrease PP for super attack
 
-        yield return new WaitForSeconds(2f);
+        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
+        if (playerUnit.attackPP > 0 && playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("Super");
+        }
+
+        yield return new WaitForSeconds(4f);
         if (isdead)
         {
             state = BattleState.WON;
@@ -162,7 +182,7 @@ public class BattleSystem : MonoBehaviour
         playerHUD.SetHP(playerUnit.currentHP);
         dialogueText.text = "You feel renewed strength!";
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
 
         state = BattleState.ENEMYTURN;
         EnemyTurn();
@@ -180,13 +200,6 @@ public class BattleSystem : MonoBehaviour
     {
         if (state != BattleState.PLAYERTURN)
             return;
-
-        // Trigger the slash animation immediately
-        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
-/*        if (playerUnit.attackPP > 0 && playerAnimator != null)
-        {
-            playerAnimator.SetTrigger("Slash");
-        }*/
 
         // Start the player attack coroutine
         StartCoroutine(PlayerAttack());
@@ -227,7 +240,7 @@ public class BattleSystem : MonoBehaviour
         }
         dialogueText.text = "The enemy performed a slash attack";
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
 
         if (isdead)
         {
@@ -247,9 +260,16 @@ public class BattleSystem : MonoBehaviour
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
 
         playerHUD.SetHP(playerUnit.currentHP);
+
+        Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
+        if (EnemyAnimator != null)
+        {
+            EnemyAnimator.SetTrigger("SUPER");
+        }
+
         dialogueText.text = "The enemy performed a Super Attack";
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
 
         if (isdead)
         {
@@ -271,7 +291,7 @@ public class BattleSystem : MonoBehaviour
 
         dialogueText.text = "The enemy healed itself";
         enemyHUD.SetHP(enemyUnit.currentHP);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
 
         state = BattleState.PLAYERTURN;
         PlayerTurn();
@@ -288,10 +308,20 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
+            Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
+            if (EnemyAnimator != null)
+            {
+                EnemyAnimator.SetTrigger("DIE");
+            }
             dialogueText.text = "You won the battle!";
         }
         else if (state == BattleState.LOST)
         {
+            Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
+            if (playerUnit.attackPP > 0 && playerAnimator != null)
+            {
+                playerAnimator.SetTrigger("DIE");
+            }
             dialogueText.text = "You were defeated.";
         }
     }

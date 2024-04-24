@@ -154,8 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5607962986649931960, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
   enemyPrefab: {fileID: 4924795109469948813, guid: 5d9cab2db5da09247b754831938e290e, type: 3}
-  panim: {fileID: 1186840235112353912, guid: 2e661a3ef11cf034ea55700b67dac718, type: 3}
-  eanim: {fileID: 1870013604481469261, guid: 5d9cab2db5da09247b754831938e290e, type: 3}
   playerBattleStation: {fileID: 2028676870}
   enemyBattleStation: {fileID: 2097352899}
   dialogueText: {fileID: 1590133361}
@@ -1986,7 +1984,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 37760428}
         m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnAttackButton
+        m_MethodName: OnSuperButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
