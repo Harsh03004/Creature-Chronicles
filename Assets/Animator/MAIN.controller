@@ -338,7 +338,172 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+<<<<<<< HEAD:Assets/Animator/MAIN.controller
 --- !u!1101 &8383776668631932088
+=======
+--- !u!91 &9100000
+AnimatorController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MC
+  serializedVersion: 5
+  m_AnimatorParameters:
+  - m_Name: Slash
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Super
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: DIE
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Walk
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  m_AnimatorLayers:
+  - serializedVersion: 5
+    m_Name: Base Layer
+    m_StateMachine: {fileID: 5306463982698876885}
+    m_Mask: {fileID: 0}
+    m_Motions: []
+    m_Behaviours: []
+    m_BlendingMode: 0
+    m_SyncedLayerIndex: -1
+    m_DefaultWeight: 0
+    m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+--- !u!1107 &5306463982698876885
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Base Layer
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: -792103180276178608}
+    m_Position: {x: 30, y: 230, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2174212555629316034}
+    m_Position: {x: 260, y: 340, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6489559320303788407}
+    m_Position: {x: 90, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6005109781535866154}
+    m_Position: {x: 140, y: 10, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_ExitTransitions: []
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: -140, y: 100, z: 0}
+  m_EntryPosition: {x: -140, y: 10, z: 0}
+  m_ExitPosition: {x: -140, y: -80, z: 0}
+  m_ParentStateMachine: {fileID: 9100000}
+--- !u!114 &7400000
+Motion:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_HorizontalMotion: 0
+  m_VerticalMotion: 0
+  m_Mirror: 0
+  m_CycleOffset: 0
+  m_LoopTime: 1
+  m_LoopBlend: 0
+  m_LoopBlendOrientation: 0
+  m_LoopBlendPositionY: 0
+  m_LoopBlendPositionXZ: 0
+  m_StartTime: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_Blob: []
+--- !u!114 &0552246ab6074944e8a8d19fcf045db4
+Motion:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_HorizontalMotion: 0
+  m_VerticalMotion: 0
+  m_Mirror: 0
+  m_CycleOffset: 0
+  m_LoopTime: 1
+  m_LoopBlend: 0
+  m_LoopBlendOrientation: 0
+  m_LoopBlendPositionY: 0
+  m_LoopBlendPositionXZ: 0
+  m_StartTime: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_Blob: []
+--- !u!114 &9367eafd3711ff641b5a8282d821c13d
+Motion:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_HorizontalMotion: 0
+  m_VerticalMotion: 0
+  m_Mirror: 0
+  m_CycleOffset: 0
+  m_LoopTime: 1
+  m_LoopBlend: 0
+  m_LoopBlendOrientation: 0
+  m_LoopBlendPositionY: 0
+  m_LoopBlendPositionXZ: 0
+  m_StartTime: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_Blob: []
+--- !u!114 &8d6f276cab9ec8841afccb869ac92fd6
+Motion:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_HorizontalMotion: 0
+  m_VerticalMotion: 0
+  m_Mirror: 0
+  m_CycleOffset: 0
+  m_LoopTime: 1
+  m_LoopBlend: 0
+  m_LoopBlendOrientation: 0
+  m_LoopBlendPositionY: 0
+  m_LoopBlendPositionXZ: 0
+  m_StartTime: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_Blob: []
+--- !u!114 &bc79a94c316ca2347b3a41ce99f0681f
+Motion:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_HorizontalMotion: 0
+  m_VerticalMotion: 0
+  m_Mirror: 0
+  m_CycleOffset: 0
+  m_LoopTime: 1
+  m_LoopBlend: 0
+  m_LoopBlendOrientation: 0
+  m_LoopBlendPositionY: 0
+  m_LoopBlendPositionXZ: 0
+  m_StartTime: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_Blob: []
+--- !u!1101 &4106298166644826323
+>>>>>>> 1db5dee4349c27548c7f656250cf8b4db660860e:Assets/Animator/MC.controller
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,15 +512,24 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
+<<<<<<< HEAD:Assets/Animator/MAIN.controller
   m_DstState: {fileID: 3700443935669142202}
+=======
+  m_DstState: {fileID: 0}
+>>>>>>> 1db5dee4349c27548c7f656250cf8b4db660860e:Assets/Animator/MC.controller
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
+<<<<<<< HEAD:Assets/Animator/MAIN.controller
   m_ExitTime: 0.8897059
   m_HasExitTime: 1
+=======
+  m_ExitTime: 1
+  m_HasExitTime: 0
+>>>>>>> 1db5dee4349c27548c7f656250cf8b4db660860e:Assets/Animator/MC.controller
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
