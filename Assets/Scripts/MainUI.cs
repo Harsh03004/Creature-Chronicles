@@ -14,5 +14,9 @@ public class MainUI : MonoBehaviour
     {
         Application.Quit();
     }
+    public void menuClick()
+    {
+        SceneManager.LoadScene(0);
+    }
 
-}
+}
