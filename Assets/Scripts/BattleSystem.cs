@@ -69,6 +69,10 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Manas/main
     IEnumerator SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation.position, Quaternion.identity);
@@ -79,6 +83,7 @@ public class BattleSystem : MonoBehaviour
 
         // Calculate the direction from the enemy to the player
         Vector3 directionToPlayer = playerBattleStation.position - enemyBattleStation.position;
+<<<<<<< HEAD
         // Ignore the y-axis to ensure the enemy faces the player horizontally
         directionToPlayer.y = 0f;
         // Rotate the enemy to face the player
@@ -88,6 +93,11 @@ public class BattleSystem : MonoBehaviour
         float randomAngle = Random.Range(-15f, 15f);
         enemyGO.transform.Rotate(Vector3.up, randomAngle);
 
+=======
+        // Rotate the enemy to face the player
+        enemyGO.transform.rotation = Quaternion.LookRotation(directionToPlayer);
+
+>>>>>>> Manas/main
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
         playerHUD.SetHUD(playerUnit);
@@ -102,7 +112,10 @@ public class BattleSystem : MonoBehaviour
     //Player's side
     IEnumerator PlayerAttack()
     {
+<<<<<<< HEAD
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+=======
+>>>>>>> Manas/main
         if (playerUnit.attackPP <= 0)
         {
             dialogueText.text = "No PP left for regular attack!";
@@ -114,6 +127,7 @@ public class BattleSystem : MonoBehaviour
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
+<<<<<<< HEAD
             dialogueText.text = "The attack is successful!";
         }
 
@@ -121,6 +135,18 @@ public class BattleSystem : MonoBehaviour
         enemyHUD.SetHP(enemyUnit.currentHP);
         yield return new WaitForSeconds(3f);
 
+=======
+            playerAnimator.SetTrigger("Slash");
+        }
+
+        dialogueText.text = "The attack is successful!";
+
+        yield return new WaitForSeconds(4f);
+
+        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+        enemyHUD.SetHP(enemyUnit.currentHP);
+        
+>>>>>>> Manas/main
         playerUnit.attackPP--; // Decrease PP for regular attack
 
         if (isDead)
@@ -137,11 +163,18 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SuperAttack()
     {
+<<<<<<< HEAD
         bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
         if (playerUnit.superAttackPP <= 0)
         {
             dialogueText.text = "No PP left for super attack!";
             yield return new WaitForSeconds(3f);
+=======
+        if (playerUnit.superAttackPP <= 0)
+        {
+            dialogueText.text = "No PP left for super attack!";
+            yield return new WaitForSeconds(2f);
+>>>>>>> Manas/main
             EnemyTurn();
             yield break;
         }
@@ -149,11 +182,23 @@ public class BattleSystem : MonoBehaviour
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
+<<<<<<< HEAD
             dialogueText.text = "The player performed a super attack!";
         }
         playerAnimator.SetTrigger("Super");
         enemyHUD.SetHP(enemyUnit.currentHP);
         yield return new WaitForSeconds(3f);
+=======
+            playerAnimator.SetTrigger("Super");
+        }
+
+        dialogueText.text = "The player performed a super attack!";
+
+        yield return new WaitForSeconds(4f);
+
+        bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
+        enemyHUD.SetHP(enemyUnit.currentHP);
+>>>>>>> Manas/main
 
         playerUnit.superAttackPP--; // Decrease PP for super attack
 
@@ -185,7 +230,11 @@ public class BattleSystem : MonoBehaviour
         playerHUD.SetHP(playerUnit.currentHP);
         dialogueText.text = "You feel renewed strength!";
 
+<<<<<<< HEAD
         yield return new WaitForSeconds(3f);
+=======
+        yield return new WaitForSeconds(4f);
+>>>>>>> Manas/main
 
         state = BattleState.ENEMYTURN;
         EnemyTurn();
@@ -233,6 +282,7 @@ public class BattleSystem : MonoBehaviour
     //Enemy's side
     IEnumerator EnemyAttack()
     {
+<<<<<<< HEAD
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
         Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
@@ -250,10 +300,30 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(3f); // This delay ensures the "Hurt" animation finishes playing before proceeding
 
         if (isDead)
+=======
+        Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
+        if (EnemyAnimator != null)
+        {
+            EnemyAnimator.SetTrigger("Slash");
+        }
+
+        dialogueText.text = "The enemy performed a slash attack";
+
+        yield return new WaitForSeconds(4f);
+
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
+        playerHUD.SetHP(playerUnit.currentHP);
+
+        if (isdead)
+>>>>>>> Manas/main
         {
             state = BattleState.LOST;
             EndBattle();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Manas/main
         else
         {
             state = BattleState.PLAYERTURN;
@@ -261,6 +331,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
 
     IEnumerator EnemySuperAttack()
     {
@@ -277,6 +348,23 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(3f);
         playerAnimator.SetTrigger("Hurt");
         yield return new WaitForSeconds(3f);
+=======
+    IEnumerator EnemySuperAttack()
+    {
+        Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
+        if (EnemyAnimator != null)
+        {
+            EnemyAnimator.SetTrigger("SUPER");
+        }
+
+        dialogueText.text = "The enemy performed a Super Attack";
+
+        yield return new WaitForSeconds(4f);
+
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+>>>>>>> Manas/main
 
         if (isdead)
         {
@@ -298,7 +386,11 @@ public class BattleSystem : MonoBehaviour
 
         dialogueText.text = "The enemy healed itself";
         enemyHUD.SetHP(enemyUnit.currentHP);
+<<<<<<< HEAD
         yield return new WaitForSeconds(3f);
+=======
+        yield return new WaitForSeconds(4f);
+>>>>>>> Manas/main
 
         state = BattleState.PLAYERTURN;
         PlayerTurn();
