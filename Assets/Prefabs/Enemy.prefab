@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5231224394382358236
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 244.39442
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 244.39442
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 244.39442
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 801.4113
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1529
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1032.9023
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.26665047
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9637933
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 210.93
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 69d87fd259ec08946ae53af759994e91, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3910143540070486435}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+--- !u!1 &4924795109469948813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2d0cc8c85f15bff459da7ef568c76d64, type: 3}
+  m_PrefabInstance: {fileID: 5231224394382358236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3910143540070486435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924795109469948813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf3f917de8a8064c8891861957483b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitName: Enemy
+  unitLevel: 10
+  damage: 10
+  SuperDamage: 0
+  maxHP: 100
+  currentHP: 100
+  attackPP: 10
+  superAttackPP: 10
+  healPP: 10
