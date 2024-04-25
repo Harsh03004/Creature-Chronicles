@@ -5,17 +5,20 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class MainUI : MonoBehaviour
 {
+    public AudioSource btnClick;
     public void fightClick()
     {
-        Debug.Log("Click");
+        btnClick.Play();
         SceneManager.LoadScene(1);
     }
     public void quitClick()
     {
+        btnClick.Play();
         Application.Quit();
     }
     public void menuClick()
     {
+        btnClick.Play();
         SceneManager.LoadScene(0);
     }
 
