@@ -100,7 +100,7 @@ MonoBehaviour:
   unitName: Player
   unitLevel: 1
   damage: 20
-  SuperDamage: 30
+  SuperDamage: 40
   maxHP: 100
   currentHP: 100
   attackPP: 10

@@ -96,7 +96,7 @@ MonoBehaviour:
   unitName: Enemy 2
   unitLevel: 2
   damage: 20
-  SuperDamage: 30
+  SuperDamage: 40
   maxHP: 100
   currentHP: 0
   attackPP: 0
