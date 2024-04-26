@@ -145,13 +145,14 @@ public class BattleSystem : MonoBehaviour
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
             playerAnimator.SetTrigger("Slash");
+            yield return new WaitForSeconds(2f);
         }
 
         dialogueText.text = "The attack is successful!";
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
         enemyHUD.SetHP(enemyUnit.currentHP);
 
-        yield return new WaitForSeconds(2f);
+        
 
         Animator enemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
         if (enemyAnimator != null)
@@ -159,7 +160,7 @@ public class BattleSystem : MonoBehaviour
             enemyAnimator.SetTrigger("HURT");
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         playerUnit.attackPP--; // Decrease PP for regular attack
 
@@ -189,11 +190,11 @@ public class BattleSystem : MonoBehaviour
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
             playerAnimator.SetTrigger("Super");
+            yield return new WaitForSeconds(2f);
         }
         dialogueText.text = "The player performed a super attack!";
         bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
         enemyHUD.SetHP(enemyUnit.currentHP);
-        yield return new WaitForSeconds(2f);
 
         Animator enemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
         if (enemyAnimator != null)
@@ -201,7 +202,7 @@ public class BattleSystem : MonoBehaviour
             enemyAnimator.SetTrigger("HURT");
         }
        
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         playerUnit.superAttackPP--; // Decrease PP for super attack
 
@@ -285,12 +286,13 @@ public class BattleSystem : MonoBehaviour
         if (EnemyAnimator != null)
         {
             EnemyAnimator.SetTrigger("Slash");
+            yield return new WaitForSeconds(2f);
         }
 
         dialogueText.text = "The enemy performed a slash attack";
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
         playerHUD.SetHP(playerUnit.currentHP);
-        yield return new WaitForSeconds(2f);
+       
 
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerAnimator != null)
@@ -298,7 +300,7 @@ public class BattleSystem : MonoBehaviour
             playerAnimator.SetTrigger("HURT");
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         if (isdead)
         {
@@ -319,12 +321,13 @@ public class BattleSystem : MonoBehaviour
         if (EnemyAnimator != null)
         {
             EnemyAnimator.SetTrigger("SUPER");
+            yield return new WaitForSeconds(2f);
         }
 
         dialogueText.text = "The enemy performed a Super Attack";
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
         playerHUD.SetHP(playerUnit.currentHP);
-        yield return new WaitForSeconds(2f);
+        
 
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerAnimator != null)
@@ -332,7 +335,7 @@ public class BattleSystem : MonoBehaviour
             playerAnimator.SetTrigger("HURT");
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
    
         if (isdead)
