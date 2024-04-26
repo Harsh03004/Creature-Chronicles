@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+
+public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST ,RUN}
 
 public class BattleSystem : MonoBehaviour
 {
@@ -27,6 +30,31 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.START;
         StartCoroutine(SetupBattle());
+        DontDestroyOnLoad(gameObject);
+    }
+
+    void Update()
+    {
+        // Check for keyboard inputs during player's turn
+        if (state == BattleState.PLAYERTURN)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                OnAttackButton();
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                OnSuperButton();
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                OnHealButton();
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                OnRunButton();
+            }
+        }
     }
 
     void PlayerTurn()
@@ -67,41 +95,44 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+
     IEnumerator SetupBattle()
     {
+        // Instantiate player and enemy GameObjects
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation.position, Quaternion.identity);
-        playerUnit = playerGO.GetComponent<Unit>();
-
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation.position, Quaternion.identity);
+
+        // Get references to the Unit components of the player and enemy
+        playerUnit = playerGO.GetComponent<Unit>();
         enemyUnit = enemyGO.GetComponent<Unit>();
 
-        // Calculate the direction from the enemy to the player
+        // Reset player and enemy health
+        playerUnit.ResetHealth();
+        enemyUnit.ResetHealth();
+
+        // Calculate direction to make the enemy face the player
         Vector3 directionToPlayer = playerBattleStation.position - enemyBattleStation.position;
-        // Ignore the y-axis to ensure the enemy faces the player horizontally
-        directionToPlayer.y = 0f;
-        // Rotate the enemy to face the player
         enemyGO.transform.rotation = Quaternion.LookRotation(directionToPlayer);
 
-        // Rotate the enemy a little bit around the y-axis
-        float randomAngle = Random.Range(-15f, 15f);
-        enemyGO.transform.Rotate(Vector3.up, randomAngle);
-
-        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
-
+        // Update HUDs with initial health values
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
 
+        // Show initial dialogue
+        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
+
+        // Wait for a moment before starting the battle
         yield return new WaitForSeconds(2f);
 
+        // Set the state to player's turn and start the battle
         state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
 
-    // Player's side
+
+    //Player's side
     IEnumerator PlayerAttack()
     {
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-
         if (playerUnit.attackPP <= 0)
         {
             dialogueText.text = "No PP left for regular attack!";
@@ -113,13 +144,16 @@ public class BattleSystem : MonoBehaviour
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
-            dialogueText.text = "The attack is successful!";
             playerAnimator.SetTrigger("Slash");
-            enemyHUD.SetHP(enemyUnit.currentHP);
         }
 
-        yield return new WaitForSeconds(3f);
+        dialogueText.text = "The attack is successful!";
 
+        yield return new WaitForSeconds(4f);
+
+        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+        enemyHUD.SetHP(enemyUnit.currentHP);
+        
         playerUnit.attackPP--; // Decrease PP for regular attack
 
         if (isDead)
@@ -136,22 +170,27 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SuperAttack()
     {
-        bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
         if (playerUnit.superAttackPP <= 0)
         {
             dialogueText.text = "No PP left for super attack!";
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
+            EnemyTurn();
+            yield break;
         }
 
         Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
         if (playerUnit.attackPP > 0 && playerAnimator != null)
         {
-            dialogueText.text = "The player performed a super attack!";
             playerAnimator.SetTrigger("Super");
-            enemyHUD.SetHP(enemyUnit.currentHP);
         }
 
-        yield return new WaitForSeconds(3f);
+        dialogueText.text = "The player performed a super attack!";
+
+        yield return new WaitForSeconds(4f);
+
+        bool isdead = enemyUnit.SuperAttack(playerUnit.damage);
+        enemyHUD.SetHP(enemyUnit.currentHP);
+
         playerUnit.superAttackPP--; // Decrease PP for super attack
 
         if (isdead)
@@ -181,7 +220,8 @@ public class BattleSystem : MonoBehaviour
 
         playerHUD.SetHP(playerUnit.currentHP);
         dialogueText.text = "You feel renewed strength!";
-        yield return new WaitForSeconds(3f);
+
+        yield return new WaitForSeconds(4f);
 
         state = BattleState.ENEMYTURN;
         EnemyTurn();
@@ -191,10 +231,10 @@ public class BattleSystem : MonoBehaviour
     {
         dialogueText.text = "Player ran away from fight";
         yield return new WaitForSeconds(2f);
-        EndBattle();
+        SceneManager.LoadScene("MainGame");
     }
 
-    // Player's side of fighting
+    //Player's side of fighitng
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)
@@ -226,35 +266,28 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SuperAttack());
     }
 
-    // Enemy's side
+    //Enemy's side
     IEnumerator EnemyAttack()
     {
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
         Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
-
         if (EnemyAnimator != null)
         {
-            dialogueText.text = "The enemy performed a slash attack";
             EnemyAnimator.SetTrigger("Slash");
-            enemyHUD.SetHP(playerUnit.currentHP);
         }
 
-        yield return new WaitForSeconds(3f); // Adjust this delay according to your enemy's "Slash" animation duration
+        dialogueText.text = "The enemy performed a slash attack";
 
-        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
-        if (playerAnimator != null)
-        {
-            playerAnimator.SetTrigger("Hurt");
-            playerHUD.SetHP(playerUnit.currentHP);
-        }
+        yield return new WaitForSeconds(4f);
 
-        yield return new WaitForSeconds(3f); // This delay ensures the "Hurt" animation finishes playing before proceeding
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
+        playerHUD.SetHP(playerUnit.currentHP);
 
-        if (isDead)
+        if (isdead)
         {
             state = BattleState.LOST;
             EndBattle();
         }
+
         else
         {
             state = BattleState.PLAYERTURN;
@@ -264,32 +297,26 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemySuperAttack()
     {
-        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
         Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
-
         if (EnemyAnimator != null)
         {
-            dialogueText.text = "The enemy performed a Super Attack";
             EnemyAnimator.SetTrigger("SUPER");
-            enemyHUD.SetHP(playerUnit.currentHP);
         }
 
-        yield return new WaitForSeconds(3f); // Adjust this delay according to your enemy's "Super" animation duration
+        dialogueText.text = "The enemy performed a Super Attack";
 
-        Animator playerAnimator = playerUnit.GetComponentInChildren<Animator>();
-        if (playerAnimator != null)
-        {
-            playerAnimator.SetTrigger("Hurt");
-            playerHUD.SetHP(playerUnit.currentHP);
-        }
+        yield return new WaitForSeconds(4f);
 
-        yield return new WaitForSeconds(3f); // This delay ensures the "Hurt" animation finishes playing before proceeding
+        bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
+
+        playerHUD.SetHP(playerUnit.currentHP);
 
         if (isdead)
         {
             state = BattleState.LOST;
             EndBattle();
         }
+
         else
         {
             state = BattleState.PLAYERTURN;
@@ -304,7 +331,7 @@ public class BattleSystem : MonoBehaviour
 
         dialogueText.text = "The enemy healed itself";
         enemyHUD.SetHP(enemyUnit.currentHP);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
 
         state = BattleState.PLAYERTURN;
         PlayerTurn();
@@ -319,6 +346,11 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
+        StartCoroutine(EndBattleCoroutine());
+    }
+
+    IEnumerator EndBattleCoroutine()
+    {
         if (state == BattleState.WON)
         {
             Animator EnemyAnimator = enemyUnit.GetComponentInChildren<Animator>();
@@ -327,6 +359,11 @@ public class BattleSystem : MonoBehaviour
                 EnemyAnimator.SetTrigger("DIE");
             }
             dialogueText.text = "You won the battle!";
+
+            // Wait for a few seconds to see the animation and health depletion
+            yield return new WaitForSeconds(3f);
+
+            SceneManager.LoadScene("MainGame");
         }
         else if (state == BattleState.LOST)
         {
@@ -336,6 +373,12 @@ public class BattleSystem : MonoBehaviour
                 playerAnimator.SetTrigger("DIE");
             }
             dialogueText.text = "You were defeated.";
+
+            // Wait for a few seconds to see the animation and health depletion
+            yield return new WaitForSeconds(5f);
+
+            SceneManager.LoadScene("GameOver");
         }
     }
+
 }

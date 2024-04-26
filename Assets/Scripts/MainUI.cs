@@ -7,16 +7,18 @@ public class MainUI : MonoBehaviour
 {
     public void fightClick()
     {
-        Debug.Log("Click");
-        SceneManager.LoadScene(1);
+        
+        SceneManager.LoadScene("MainGame");
     }
     public void quitClick()
     {
+        
         Application.Quit();
     }
     public void menuClick()
     {
-        SceneManager.LoadScene(0);
+       
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

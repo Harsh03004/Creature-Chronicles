@@ -114,9 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Enemy 3
-  unitLevel: 1
-  damage: 10
-  SuperDamage: 10
+  unitLevel: 3
+  damage: 30
+  SuperDamage: 40
   maxHP: 100
   currentHP: 0
   attackPP: 0

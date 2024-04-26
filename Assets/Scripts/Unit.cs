@@ -31,6 +31,11 @@ public class Unit : MonoBehaviour
             currentHP = maxHP;
     }
 
+    public void ResetHealth()
+    {
+        currentHP = maxHP;
+    }
+
     public bool SuperAttack(int SuperDamage)
     {
         if (superAttackPP <= 0)
